@@ -109,7 +109,7 @@ analytics:
 author:
   name             : "P"
   avatar           : "/assets/images/bio-photo.jpg"
-  bio              : "Reverse engineering | Web crawler"
+  bio              : "Reverse engineering & Web crawler"
   location         : "Beijing"
   email            : # "xtchen.pitt@gmail.com"
   links:
