@@ -58,7 +58,7 @@ Proxy Tower中有个**Pattern**类。pattern是目标站点的某个复用页面
 
 **全拿来**
 
-项目中已经配置了通过proxy_pool的API，项目启动的时候会获取一次，在此**特别感谢proxy_pool的作者**。
+项目中已经配置了通过proxy_pool的API，项目启动的时候会获取一次，在此特别感谢proxy_pool的作者。
 
 可以在models/proxy.py中拓展代理IP源，目前支持文件和API两种方式。
 
@@ -101,7 +101,7 @@ class ProxyApi(ProxySource):
 
 另外，对于必须使用https的站点，可以在请求的headers中添加`'Need-Https': 'yes'`，Proxy Tower会选取带有support_https标记的代理IP。
 
-注：URL不要带上https，例如使用`http://www.bilibili.com`，而不是`http://www.bilibili.com`。
+注：URL不要带上https，例如使用`http://www.bilibili.com`，而不是`https://www.bilibili.com`。
 
 ## 还有界面
 
