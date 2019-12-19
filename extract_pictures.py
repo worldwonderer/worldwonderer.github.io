@@ -1,11 +1,10 @@
 import re
-import os
 import shutil
 
 import requests
 
-file_path = "_posts/2019-12-19-逆向某付费电竞社交App.md"
-image_path = "assets/images/20191219"
+file_path = "_posts/2019-12-20-逆向某电商社区App.md"
+image_path = "assets/images/20191220"
 
 
 def download_pictures(urls):
