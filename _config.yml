@@ -111,7 +111,7 @@ author:
   avatar           : "/assets/images/bio-photo.jpg"
   bio              : "Reverse engineering | Web crawler"
   location         : "Beijing"
-  email            : "xtchen.pitt@gmail.com"
+  email            : # "xtchen.pitt@gmail.com"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
