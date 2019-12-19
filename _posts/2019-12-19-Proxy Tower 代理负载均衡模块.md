@@ -3,9 +3,9 @@
 
 遇到的问题：
 
-* 这些项目采集来的代理IP虽然已经过了一层筛选，但成功率还是不高
-* 用起来比较繁琐，还是需要写一些轮换的逻辑
-* 没有对代理结果是否有效做校验，无法甄别一些广告或失效代理
+* 这些项目采集来的代理IP虽然已经过了一层筛选，但成功率还是不高。
+* 用起来比较繁琐，还是需要写一些轮换的逻辑。
+* 没有对代理结果是否有效做校验，无法甄别一些广告或失效代理。
 
 [Proxy Tower](https://github.com/worldwonderer/proxy_tower) 就是为了解决这些问题而生的。
 
@@ -107,9 +107,9 @@ class ProxyApi(ProxySource):
 
 Proxy Tower提供了一个[Dashboard](https://github.com/worldwonderer/proxy_tower_dashboard)，支持：
 
-* 查看proxy
-* 查看、修改、添加pattern
-* 各pattern成功率的折线表
+* 查看proxy。
+* 查看、修改、添加pattern。
+* 各pattern成功率的折线表。
 
 
 ## 结语
