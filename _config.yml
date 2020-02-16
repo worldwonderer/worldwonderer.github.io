@@ -18,7 +18,7 @@ minimal_mistakes_skin    : "sunrise" # "air", "aqua", "contrast", "dark", "dirt"
 locale                   : "en-US"
 title                    : "World Wonderer"
 title_separator          : "-"
-subtitle                 : "Reverse engineering & Web crawler"
+subtitle                 : ""
 name                     : "P"
 description              : "Reverse engineering & Web crawler"
 url                      : "https://worldwonderer.github.io/"
@@ -28,7 +28,7 @@ teaser                   : # path of fallback teaser image, e.g. "/assets/images
 logo                     : "/assets/images/bio-photo_88x88.jpg"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
-words_per_minute         : 200
+words_per_minute         : 100
 comments:
   provider               : "disqus"
   disqus:
