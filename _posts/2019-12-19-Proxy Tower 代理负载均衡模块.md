@@ -62,7 +62,7 @@ Proxy Tower中有个**Pattern**类。pattern是目标站点的某个复用页面
 
 可以在models/proxy.py中拓展代理IP源，目前支持文件和API两种方式。
 
-```shell
+```python
 # 文件
 class ProxyFile(ProxySource):
 
