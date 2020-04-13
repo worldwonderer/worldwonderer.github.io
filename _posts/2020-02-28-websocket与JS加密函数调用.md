@@ -58,7 +58,7 @@ asyncio.get_event_loop().run_forever()
 
 最后启动chrome浏览器即可
 
-```shell
+```
 ./Chromium http://www.xxxxxxxx.com --proxy-server=127.0.0.1:8080 --ignore-certificate-errors
 ```
 
