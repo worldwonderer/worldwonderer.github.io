@@ -36,7 +36,7 @@ CEF是支持在其他应用中嵌入Chromium浏览器的框架，提供了丰富
 
 接着点击Generate即可。
 
-在build文件夹，用Visual Studio打开cef.xln文件。
+在build文件夹，用Visual Studio打开cef.sln文件。
 
 接下来我们编译最简单的示例代码cefsimple。首先将cefsimple设为启动项目，然后在菜单栏生成里边点击生成cefsimple。
 
@@ -45,6 +45,8 @@ CEF是支持在其他应用中嵌入Chromium浏览器的框架，提供了丰富
 不出意外就能在`cef_binary\build\tests\cefsimple\Debug`文件夹里找到编译完的cefsimple。
 
 ### 二次开发
+
+这里以一个简单的例子：实现一个接收网页链接，返回渲染后HTML的服务，来讲解CEF的二次开发。
 
 ## 浏览器集群
 
