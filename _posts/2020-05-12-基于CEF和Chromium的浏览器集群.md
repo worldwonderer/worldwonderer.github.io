@@ -7,9 +7,36 @@
 
 ## CEF
 
-CEF是支持在其他应用中嵌入Chromium浏览器的框架，提供了丰富的接口以操纵浏览器。
+CEF是支持在其他应用中嵌入Chromium浏览器的框架，提供了丰富的接口以操纵浏览器。这里主要介绍下CEF的编译和二次开发。
 
 ### 编译
+注：以下编译是在Windows x64环境下进行的。
+
+推荐使用已编译好内核的[libcef](http://opensource.spotify.com/cefbuilds/index.html#windows64_builds)，选择Standard Distribution。另外，还需要下载一款跨平台的编译辅助工具[CMake](https://cmake.org/download/)，选择Windows win64-x64 Installer。最后当然还得下载个Visual Studio 2019，需要安装的组件有Windows 10 SDK、MSBuild、用于Windows的C++ CMake工具。
+
+准备完这些之后，先打开cmake-gui，where is source code选择cef_binary所在的文件夹，where to build the binaries在cef_binary里边新建一个build目录，总体如下图所示。
+
+![](../assets/images/20200512/0.png)
+
+点击Configure，按下图配置，并点击Finish。
+
+![](../assets/images/20200512/1.png)
+
+正常会出现下图的提示。
+
+![](../assets/images/20200512/2.png)
+
+接着点击Generate即可。
+
+在build文件夹，用Visual Studio打开cef.xln文件。
+
+这里我们编译最简单的示例代码cefsimple。首先将cefsimple设为启动项目，然后在菜单栏生成里边点击生成cefsimple。
+
+![](../assets/images/20200512/3.png)
+
+不出意外就能在`cef_binary\build\tests\cefsimple\Debug`文件夹里找到编译完的cefsimple。
+
+### 二次开发
 
 ## 浏览器集群
 
