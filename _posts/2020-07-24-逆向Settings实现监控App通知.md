@@ -45,6 +45,8 @@ Settings属于系统级应用，通常在/system/priv-app/目录，`adb pull /sy
 
 这里边的Intent的内容到底是什么？Notification类中能不能拿到我们想要的PendingIntent？接着我发现了formatPendingIntent，这是生产上图Intent字段值的方法，入参就是PendingIntent。
 
+![](../assets/images/20200724/4.png)
+
 那么一切就引刃而解了，因为获取到PendingIntent，就意味着获取到了Intent，毕竟PendingIntent是Intent的包裹。
 
 ## frida hook实践
