@@ -60,11 +60,7 @@ Java.perform(function () {
         var intent = pi.getIntent();  // 隐藏方法，系统级应用才可以调用
         var bundle = intent.getExtras();
         if (bundle != null) {
-            try {
-                var keys = bundle.keySet();
-            } catch (e) {
-                return "";
-            }
+            var keys = bundle.keySet();
             var it = keys.iterator();
             while (it.hasNext()) {
                 var key = it.next();
@@ -123,4 +119,71 @@ Java.perform(function () {
 
 本以为到此为止大部分App的通知我们都可以获取到了，但在运行过程中发现，用该方法获取通知Intent信息，有时候会导致Settings崩溃退出。
 
-（未完待续）
+回溯日志发现，每次崩溃都是在解析某资讯App的通知时出现的，具体崩溃日志如下。
+
+```
+07-24 17:44:31.467  4851  4851 D AndroidRuntime: Shutting down VM
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: FATAL EXCEPTION: main
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: Process: com.android.settings, PID: 4851
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: java.lang.RuntimeException: Unable to resume activity {com.android.settings/com.android.settings.Settings$NotificationStationActivity}: java.lang.RuntimeException: Parcelable encountered ClassNotFoundException reading a Serializable object (name = com.***.news.data.PushData)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.ActivityThread.performResumeActivity(ActivityThread.java:3582)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.ActivityThread.handleResumeActivity(ActivityThread.java:3622)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2863)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.ActivityThread.-wrap11(Unknown Source:0)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1590)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:106)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:164)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:6499)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:440)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:807)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: Caused by: java.lang.RuntimeException: Parcelable encountered ClassNotFoundException reading a Serializable object (name = com.yidian.news.data.PushData)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.Parcel.readSerializable(Parcel.java:3010)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.Parcel.readValue(Parcel.java:2796)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.Parcel.readArrayMapInternal(Parcel.java:3114)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.BaseBundle.initializeFromParcelLocked(BaseBundle.java:273)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.BaseBundle.unparcel(BaseBundle.java:226)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.BaseBundle.keySet(BaseBundle.java:520)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at com.android.settings.notification.NotificationStation.formatPendingIntent(Native Method)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at com.android.settings.notification.NotificationStation.generateExtraText(NotificationStation.java:432)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at com.android.settings.notification.NotificationStation.loadNotifications(NotificationStation.java:301)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at com.android.settings.notification.NotificationStation.refreshList(NotificationStation.java:209)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at com.android.settings.notification.NotificationStation.onResume(NotificationStation.java:205)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.Fragment.performResume(Fragment.java:2554)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.FragmentManagerImpl.moveToState(FragmentManager.java:1322)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.FragmentManagerImpl.moveFragmentToExpectedState(FragmentManager.java:1557)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.FragmentManagerImpl.moveToState(FragmentManager.java:1618)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.FragmentManagerImpl.dispatchMoveToState(FragmentManager.java:3027)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.FragmentManagerImpl.dispatchResume(FragmentManager.java:2989)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.FragmentController.dispatchResume(FragmentController.java:200)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.Activity.performResume(Activity.java:7173)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.ActivityThread.performResumeActivity(ActivityThread.java:3557)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	... 10 more
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: Caused by: java.lang.ClassNotFoundException: com.yidian.news.data.PushData
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.lang.Class.classForName(Native Method)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.lang.Class.forName(Class.java:453)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.io.ObjectInputStream.resolveClass(ObjectInputStream.java:629)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.Parcel$2.resolveClass(Parcel.java:3001)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.io.ObjectInputStream.readNonProxyDesc(ObjectInputStream.java:1616)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.io.ObjectInputStream.readClassDesc(ObjectInputStream.java:1521)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:1777)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1354)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:374)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.Parcel.readSerializable(Parcel.java:3004)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	... 29 more
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: Caused by: java.lang.ClassNotFoundException: Didn't find class "com.yidian.news.data.PushData" on path: DexPathList[[zip file "/system/priv-app/Settings/Settings.apk"],nativeLibraryDirectories=[/system/priv-app/Settings/lib/arm64, /system/priv-app/Settings/Settings.apk!/lib/arm64-v8a, /system/lib64, /vendor/lib64, /system/lib64, /vendor/lib64]]
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:125)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.lang.ClassLoader.loadClass(ClassLoader.java:379)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.lang.ClassLoader.loadClass(ClassLoader.java:312)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	... 39 more
+07-24 17:44:31.471  1413  1428 W ActivityManager:   Force finishing activity com.android.settings/.Settings$NotificationStationActivity
+07-24 17:44:31.480  1413  1450 I ActivityManager: Showing crash dialog for package com.android.settings u0
+```
+
+可以发现，是在unparcel的时候报错，可以猜想的是，Intent中被放入了该App特有的类，因为我们hook的是Settings App，肯定没有该资讯App的的时候，无法找到`com.***.news.data.PushData`类。
+
+有一种方法是将`var keys = bundle.keySet();`用try catch包裹，报错时直接跳过这条通知。
+
+但如果就是想获取到这条通知中的内容呢？
+
+
