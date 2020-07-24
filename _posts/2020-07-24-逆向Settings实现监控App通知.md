@@ -180,7 +180,7 @@ Java.perform(function () {
 07-24 17:44:31.480  1413  1450 I ActivityManager: Showing crash dialog for package com.android.settings u0
 ```
 
-可以发现，是在unparcel的时候报错，可以猜想的是，Intent中被放入了该App特有的类，因为我们hook的是Settings App，肯定没有该资讯App的的时候，无法找到`com.***.news.data.PushData`类。
+可以发现，是在unparcel的时候报错，可以猜想的是，Intent中被放入了该App特有的类，因为我们hook的是Settings App，肯定无法找到`com.***.news.data.PushData`类。
 
 有一种方法是将`var keys = bundle.keySet();`用try catch包裹，报错时直接跳过这条通知。
 
