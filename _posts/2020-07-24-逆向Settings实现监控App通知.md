@@ -5,11 +5,11 @@
 
 ## 总体思路
 
-如何获取内容的地址？其实答案很简单，当用户点击推送的时候，会启动App跳转到对应的详情页面，那只要获取到跳转的信息，是不是大概率就能拿到内容的地址或ID了。
+如何获取内容的地址以及通知中的其他信息？其实答案很简单，当用户点击推送的时候，会启动App跳转到对应的详情页面，那只要获取到跳转的信息，是不是大概率就能拿到内容的地址或ID了。
 
 查阅资料发现，Android中点击通知能够跳转到对应App的Activity的关键在于PendingIntent。对于PendingIntent，其实可以从字面理解，等候着的Intent，即待触发的Intent，在通知中就是等待用户点击来触发跳转的Intent，Intent中包含了跳转Activity所需要的信息。
 
-那么Android有没有系统级的API可以获取到所有的通知呢。查阅资料发现，我的环境（Android 8.1 LineageOS），自带通知日志微件，调出的方式是通过长按桌面，选择微件，然后选择设置中的通知日志，界面如下。
+说完绕口令，那么Android有没有系统级的API可以获取到所有的通知呢。查阅资料发现，我的环境（Android 8.1 LineageOS），自带通知日志微件，调出的方式是通过长按桌面，选择微件，然后选择设置中的通知日志，界面如下。
 
 ![](../assets/images/20200724/0.png)
 
@@ -58,6 +58,7 @@ Java.perform(function () {
     var Iterator = Java.use("java.util.Iterator");
     NotificationStation.formatPendingIntent.implementation = function(pi) {
         var intent = pi.getIntent();  // 隐藏方法，系统级应用才可以调用
+        send(intent.getData());
         var bundle = intent.getExtras();
         if (bundle != null) {
             var keys = bundle.keySet();
@@ -137,7 +138,7 @@ Java.perform(function () {
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:440)
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:807)
-07-24 17:44:31.468  4851  4851 E AndroidRuntime: Caused by: java.lang.RuntimeException: Parcelable encountered ClassNotFoundException reading a Serializable object (name = com.yidian.news.data.PushData)
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: Caused by: java.lang.RuntimeException: Parcelable encountered ClassNotFoundException reading a Serializable object (name = com.***.news.data.PushData)
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.Parcel.readSerializable(Parcel.java:3010)
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.Parcel.readValue(Parcel.java:2796)
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.Parcel.readArrayMapInternal(Parcel.java:3114)
@@ -159,7 +160,7 @@ Java.perform(function () {
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.Activity.performResume(Activity.java:7173)
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.app.ActivityThread.performResumeActivity(ActivityThread.java:3557)
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	... 10 more
-07-24 17:44:31.468  4851  4851 E AndroidRuntime: Caused by: java.lang.ClassNotFoundException: com.yidian.news.data.PushData
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: Caused by: java.lang.ClassNotFoundException: com.***.news.data.PushData
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.lang.Class.classForName(Native Method)
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.lang.Class.forName(Class.java:453)
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.io.ObjectInputStream.resolveClass(ObjectInputStream.java:629)
@@ -171,7 +172,7 @@ Java.perform(function () {
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.io.ObjectInputStream.readObject(ObjectInputStream.java:374)
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at android.os.Parcel.readSerializable(Parcel.java:3004)
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	... 29 more
-07-24 17:44:31.468  4851  4851 E AndroidRuntime: Caused by: java.lang.ClassNotFoundException: Didn't find class "com.yidian.news.data.PushData" on path: DexPathList[[zip file "/system/priv-app/Settings/Settings.apk"],nativeLibraryDirectories=[/system/priv-app/Settings/lib/arm64, /system/priv-app/Settings/Settings.apk!/lib/arm64-v8a, /system/lib64, /vendor/lib64, /system/lib64, /vendor/lib64]]
+07-24 17:44:31.468  4851  4851 E AndroidRuntime: Caused by: java.lang.ClassNotFoundException: Didn't find class "com.***.news.data.PushData" on path: DexPathList[[zip file "/system/priv-app/Settings/Settings.apk"],nativeLibraryDirectories=[/system/priv-app/Settings/lib/arm64, /system/priv-app/Settings/Settings.apk!/lib/arm64-v8a, /system/lib64, /vendor/lib64, /system/lib64, /vendor/lib64]]
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:125)
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.lang.ClassLoader.loadClass(ClassLoader.java:379)
 07-24 17:44:31.468  4851  4851 E AndroidRuntime: 	at java.lang.ClassLoader.loadClass(ClassLoader.java:312)
@@ -180,10 +181,10 @@ Java.perform(function () {
 07-24 17:44:31.480  1413  1450 I ActivityManager: Showing crash dialog for package com.android.settings u0
 ```
 
-可以发现，是在unparcel的时候报错，可以猜想的是，Intent中被放入了该App特有的类，因为我们hook的是Settings App，肯定无法找到`com.***.news.data.PushData`类。
+可以发现，是在unparcel的时候报错。很明显的是，Intent中被放入了该App特有的类，因为我们hook的是Settings App，肯定无法找到`com.***.news.data.PushData`类。
 
 有一种方法是将`var keys = bundle.keySet();`用try catch包裹，报错时直接跳过这条通知。
 
-但如果就是想获取到这条通知中的内容呢？
+但如果就是想获取到这条通知中的内容呢？frida API中有`Java.openClassFile(filePath)`这个方法，可以加载dex或者apk文件中的类。所以执行`Java.openClassFile(filePath).load()`后，再用`var classLoader = Java.use("com.***.news.data.PushData").class.getClassLoader()`，获取该类的classLoader，并调用`bundle.setClassLoader(classLoader)`即可。
 
-
+全文完~
