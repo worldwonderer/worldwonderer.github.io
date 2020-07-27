@@ -9,58 +9,26 @@
 
 [Proxy Tower](https://github.com/worldwonderer/proxy_tower) 就是为了解决这些问题而生的。
 
-## 暴力美学
+## 特性
 
-采集来的免费代理IP，谁也不知道下一秒还能不能用。
-
-思考良久后，决定祭出暴力美学，**1个代理IP没成功，一次来10个总该有个成功的吧**？
-
-**多倍转发**
+采集来的免费代理IP，谁也不知道下一秒还能不能用。思考良久后，决定祭出暴力美学，**1个代理IP没成功，一次来10个总该有个成功的吧**？
 
 Proxy Tower的并发逻辑由Python3 asyncio实现，支持将收到的代理请求转发给**多个proxy**，返回**最快**并且**有效**的response。
 
 经测试，将并发转发数调至5，代理成功率显著提高；当并发数调到变态的10时，成功率接近100%。当然我不建议调这么高，这会影响该代理IP的其他使用者。
 
-## 懒人救星
+采集完代理IP之后存哪？怎么用，客户端还是API？失效了怎么轮换？开箱即用，可不可以。Proxy Tower本身就是一个代理服务器，使用只需要一行。`curl -x "http://0.0.0.0:8893" "http://movie.douban.com"`
 
-采集完代理IP之后存哪？怎么用，客户端还是API？失效了怎么轮换？
-
-开箱即用，可不可以。
-
-**我就是代理，交给我吧**
-
-Proxy Tower本身就是一个代理服务器，使用只需要一行。
-
-`curl -x "http://0.0.0.0:8893" "http://movie.douban.com"`
-
-##  精准剔除
-
-若干个月前，总是有使用者跑来说，你的代理又不行啦。
-
-打开日志一看，惊呆了。
+但用着用着又发现两个问题：
 
 * 有几个代理IP速度非常快，但是返回的都是一个毫不相关的广告页面。
 * 或者有时候发现有几个代理IP被封了，但还一直在使用。
 
-只能对代理IP返回的结果做校验吧，问题又来了，每个站点肯定都不一样啊，不急这也帮你做好了。
+只能对代理IP返回的结果做校验吧，问题又来了，每个站点肯定都不一样啊，不急这也帮你做好了。Proxy Tower中有个**Pattern**类。pattern是目标站点的某个复用页面，通常有同样的URL前缀，类似的HTML结构，如豆瓣电影`movie.douban.com/subject/`。
 
-**代理IP清理大师**
+通过前缀树存储pattern，这样在抓取类似`https://movie.douban.com/subject/27119724/`的链接，就会匹配到对应的pattern。我们可以对pattern，设置一个校验规则，如关键词`ratingValue`（豆瓣评分），或者一个Xpath`//*[@id="recommendations"]/h2/i`，Proxy Tower就会根据指定的规则校验，并对代理IP计分。
 
-Proxy Tower中有个**Pattern**类。pattern是目标站点的某个复用页面，通常有同样的URL前缀，类似的HTML结构，如豆瓣电影`movie.douban.com/subject/`。
-
-通过前缀树存储pattern，这样在抓取类似`https://movie.douban.com/subject/27119724/`的链接，就会匹配到对应的pattern。
-
-我们可以对pattern，设置一个校验规则，如关键词`ratingValue`（豆瓣评分），或者一个Xpath`//*[@id="recommendations"]/h2/i`，Proxy Tower就会根据指定的规则校验，并对代理IP计分。
-
-## 化功大法
-
-因为已经有了众多优秀的代理池项目，Proxy Tower没有接入爬取代理IP的功能。
-
-**全拿来**
-
-项目中已经配置了通过proxy_pool的API，项目启动的时候会获取一次，在此特别感谢proxy_pool的作者。
-
-可以在models/proxy.py中拓展代理IP源，目前支持文件和API两种方式。
+另外因为已经有了众多优秀的代理池项目，Proxy Tower没有接入爬取代理IP的功能。项目中已经配置了通过proxy_pool的API，项目启动的时候会获取一次，在此特别感谢proxy_pool的作者。大家可以在models/proxy.py中拓展代理IP源，目前支持文件和API两种方式。
 
 ```python
 # 文件
@@ -99,13 +67,9 @@ class ProxyApi(ProxySource):
 * support_https：代理IP是否支持https。
 * paid: 代理IP是否为付费代理。
 
-另外，对于必须使用https的站点，可以在请求的headers中添加`'Need-Https': 'yes'`，Proxy Tower会选取带有support_https标记的代理IP。
+另外，对于必须使用https的站点，可以在请求的headers中添加`'Need-Https': 'yes'`，Proxy Tower会选取带有support_https标记的代理IP。注：URL不要带上https，例如使用`http://www.bilibili.com`，而不是`https://www.bilibili.com`。
 
-注：URL不要带上https，例如使用`http://www.bilibili.com`，而不是`https://www.bilibili.com`。
-
-## 还有界面
-
-Proxy Tower提供了一个[Dashboard](https://github.com/worldwonderer/proxy_tower_dashboard)，支持：
+Proxy Tower还提供了一个[Dashboard](https://github.com/worldwonderer/proxy_tower_dashboard)，支持：
 
 * 查看proxy。
 * 查看、修改、添加pattern。
