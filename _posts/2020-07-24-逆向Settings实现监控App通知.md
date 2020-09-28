@@ -187,4 +187,95 @@ Java.perform(function () {
 
 但如果就是想获取到这条通知中的内容呢？frida API中有`Java.openClassFile(filePath)`这个方法，可以加载dex或者apk文件中的类。所以执行`Java.openClassFile(filePath).load()`后，再用`var classLoader = Java.use("com.***.news.data.PushData").class.getClassLoader()`，获取该类的classLoader，并调用`bundle.setClassLoader(classLoader)`即可。
 
+## mipush逆向
+
+运行了一段时间后，发现通过mipush推送的通知，没有办法获取到通知中的内容，`mipush_payload`中全部都是密文。逆向SDK发现，手机从mipush服务端接收到是经过格式化且aes加密的消息，`mipush_payload`会在App侧的SDK解密，逻辑搞清楚之后，逆向也很简单。
+
+不过在逆向的过程中发现，mipush SDK的混淆做的很彻底，同一个类中经常出现同名但类型不同的成员变量，也有方法名且参数类型相同的方法，对frida hook有很大的干扰。这里分享一下解决的代码。
+
+```javascript
+var Java_lang_Object = Java.use('java.lang.Object');
+var Java_lang_String = Java.use('java.lang.String');
+var Type = Java.use('java.lang.reflect.Type');
+    //This function get method reference by reflect
+    function dynamic_search_method(io_object, iv_name, iv_ret_type, it_par){ 
+      var lt_methods = io_object.getMethods()  ;
+      var lv_found;
+      for(var  lv_i=0;lv_i < lt_methods.length;lv_i++){
+         if(lt_methods[lv_i].getName().toString()  == iv_name && lt_methods[lv_i].getGenericReturnType().getTypeName() == iv_ret_type){
+            var lt_par_type = lt_methods[lv_i].getParameterTypes();
+            if(lt_par_type.length == it_par.length){
+              lv_found = true; 
+              for(var  lv_j=0;lv_j < lt_par_type.length && lv_found == true;lv_j++){
+                if(lt_par_type[lv_j].getName().toString() != it_par[lv_j]) lv_found = false  ; 
+              }                   
+              if(lv_found == true) return lt_methods[lv_i];
+            }
+         }
+      }
+     return null;
+    }
+    //This function call method dynamically 
+    function dynamic_invoke(io_object,io_method, it_par){
+      if(io_object===null || io_method ===null ) return null;
+      try{
+        var lo_cast_obj = Java.cast( io_object ,Java_lang_Object);
+      }catch(e){
+        return null;
+      }
+      var lt_par = Java.array('java.lang.Object',it_par);
+      return io_method.invoke(lo_cast_obj,lt_par);
+    }
+```
+
+```javascript
+var lo_fld_eaxe;
+var lv_found = false;
+var lt_fields = this.getClass().getDeclaredFields();
+for (var i = 0; i < lt_fields.length && lv_found == false; i++) {
+    if(lt_fields[i].getName().toString() == 'a' &&  lt_fields[i].getType().getName().toString() == 'e.a.x.e' ){
+       lo_fld_eaxe = lt_fields[i];
+       lv_found = true; 
+  }
+}
+if(lv_found == true) {
+   lo_fld_eaxe.setAccessible(true);
+   try{ 
+          var       lv_e_a_x_e = lo_fld_eaxe.get(this);   
+   }
+   catch(err){
+          console.log("Error:"+err);
+   }
+ }
+```
+
+另外附上frida cast byte[]的方法，`Java.array('byte', obj);`
+
+```javascript
+if (key.toString() === "mipush_payload") {
+    if (pkg === "com.jifen.qukan") {
+        var secKey = "IS7hXXi0RDSkX+CnfTAAAA=="
+    }
+
+    var mipushPayloadBytes = bundle.getByteArray(key);
+    var IK = Java.use("com.xiaomi.push.ik");
+    var ik = IK.$new();
+    var IY = Java.use("com.xiaomi.push.iy");
+    IY.a(ik, mipushPayloadBytes)
+    var DecryptClass = Java.use("com.xiaomi.push.h");
+    var Base64Class = Java.use("com.xiaomi.push.bc");
+    var keyBytes = Base64Class.a(JavaString.$new(secKey).toCharArray())
+    var lo_meth = dynamic_search_method(ik.getClass(),"a","byte[]",[]);
+    var lv_var= dynamic_invoke(ik,lo_meth,[]);
+    var buffer = Java.array('byte', lv_var);
+    var decryptBytes = DecryptClass.a(keyBytes, buffer); 
+    var apClass = Java.use("com.xiaomi.mipush.sdk.ap")
+    var hoClass = Java.use("com.xiaomi.push.ho")
+    var iz = apClass.a(hoClass.a(5), true)
+    IY.a(iz, decryptBytes)
+    iz = Java.cast(iz, Java.use("com.xiaomi.push.ir"))
+    record.info = iz.toString()
+}
+```
+
 全文完~
