@@ -38,7 +38,7 @@
 
 ![](../assets/images/20210101/6.png)
 
-decrypt方法在2164，encrypt方法在2320。decrypt方法IDA识别有些问题，虽然也可以修复，但不是本篇的主题。就先看一下encrypt，即sub_2320
+decrypt方法在2164，encrypt方法在2320。decrypt方法IDA识别有些问题，虽然修复不是本篇的主题，简单说一句就是从内存中dump出一份对照。就先看一下encrypt，即sub_2320
 
 同样，再次解析JNI的相关变量，解析完如图
 
