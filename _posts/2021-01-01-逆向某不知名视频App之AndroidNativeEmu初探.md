@@ -151,8 +151,11 @@ except UcError as e:
     raise
 ```
 
-试着运行了一下报错，`unicorn.unicorn.UcError: Invalid memory fetch (UC_ERR_FETCH_UNMAPPED)。`好吧，还记得上边deflate函数吗，libz.so我们也得加载上
-`emulator.load_library("example_binaries/libz.so")`
+试着运行了一下报错，`unicorn.unicorn.UcError: Invalid memory fetch (UC_ERR_FETCH_UNMAPPED)`。好吧，还记得上边deflate函数吗，libz.so我们也得加载上。
+
+这里有个小技巧，`cat /proc/<pid>/maps`可以看到进程加载的动态库，然后直接`adb pull /system/lib/libz.so`就能拿到libz.so文件了
+
+加上`emulator.load_library("example_binaries/libz.so")`
 
 接着运行，还是报错`RuntimeError: Could not find static method ('convertCStringToJniSafeString', '([B)Ljava/lang/String;') in class com/acos/utils/AcosUtil.`
 
