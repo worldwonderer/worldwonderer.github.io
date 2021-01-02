@@ -157,9 +157,11 @@ except UcError as e:
 
 加上`emulator.load_library("example_binaries/libz.so")`
 
-接着运行，还是报错`RuntimeError: Could not find static method ('convertCStringToJniSafeString', '([B)Ljava/lang/String;') in class com/acos/utils/AcosUtil.`
+再次运行，这次虽然还是报错了，但是！加密是成功运行到了的，打印出了结果`ff05539dd356137d94b769fa6dfc8328296f11377b30e2abb2`
 
-嗯，native层调用了AcosUtil中的静态方法convertCStringToJniSafeString，我们照着Java代码补充上
+来看一下解密报错`RuntimeError: Could not find static method ('convertCStringToJniSafeString', '([B)Ljava/lang/String;') in class com/acos/utils/AcosUtil.`
+
+嗯，native层调用了AcosUtil中的静态方法convertCStringToJniSafeString，我们照着Java代码补充上，再次运行
 
 ```python
 class AcosUtil(metaclass=JavaClassDef, jvm_name='com/acos/utils/AcosUtil'):
@@ -182,8 +184,6 @@ class AcosUtil(metaclass=JavaClassDef, jvm_name='com/acos/utils/AcosUtil'):
     def test(self):
         pass
 ```
-
-再次运行，这次虽然还是报错了，但是！加密是成功运行到了的，打印出了结果
 
 ```
 2021-01-01 19:09:36,722   DEBUG            androidemu.java.java_vm | java_vm: 0x01000056
@@ -330,4 +330,6 @@ ff05539dd356137d94b769fa6dfc8328296f11377b30e2abb2
 fuckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
 ```
 
-全文完
+解密函数也可以成功调用了。
+
+全文完~
