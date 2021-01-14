@@ -225,73 +225,7 @@ NotImplementedError
 
 这次的报错是说我们没有实现jni_env.py中的call_static_object_method方法。观察了下源码，原作者是有实现call_static_object_method_v方法的，主要差别就是call_static_object_method接收的参数数量不确定
 
-但针对我们这个case来说，convertCStringToJniSafeString参数数量和类型是定的，也就是bytearray，我们照着call_static_object_method_v补充上代码
-```python
-    @native_method
-    def call_static_object_method(self, mu, env, clazz_idx, method_id, array):
-        """case only"""
-        clazz = self.get_reference(clazz_idx)
-
-        if not isinstance(clazz, jclass):
-            raise ValueError('Expected a jclass.')
-
-        method = clazz.value.find_method_by_id(method_id)
-
-        if method is None:
-            # TODO: Proper Java error?
-            raise RuntimeError("Could not find method %d in class %s by id." % (method_id, clazz.value.jvm_name))
-
-        logger.debug("JNIEnv->CallStaticObjectMethod(%s, %s <%s>, 0x%x) was called" % (
-            clazz.value.jvm_name,
-            method.name,
-            method.signature, array))
-
-        # Parse arguments.
-        constructor_args = self.read_args_v(mu, array, method.args_list)
-        return method.func(self._emu, *constructor_args)
-```
-
-运行还是报错
-```
-Traceback (most recent call last):
-  File "_ctypes/callbacks.c", line 234, in 'calling callback function'
-  File "/home/pite/.local/lib/python3.6/site-packages/unicorn/unicorn.py", line 479, in _hookcode_cb
-    cb(self, address, size, data)
-  File "/mnt/c/Users/18015/Desktop/reverse/AndroidNativeEmu/samples/androidemu/hooker.py", line 97, in _hook
-    hook_func(self._emu)
-  File "/mnt/c/Users/18015/Desktop/reverse/AndroidNativeEmu/samples/androidemu/java/helpers/native_method.py", line 112, in native_method_wrapper
-    result = func(argv[0], mu, *native_args)
-  File "/mnt/c/Users/18015/Desktop/reverse/AndroidNativeEmu/samples/androidemu/java/jni_env.py", line 1138, in call_static_object_method
-    return method.func(self._emu, *constructor_args)
-  File "/mnt/c/Users/18015/Desktop/reverse/AndroidNativeEmu/samples/androidemu/java/java_method_def.py", line 28, in normal_wrapper
-    result = func(*args, **kwargs)
-  File "example_youguo_init.py", line 31, in convert_cstring_to_jni_safe_string
-    return arr.value.decode()
-AttributeError: 'NoneType' object has no attribute 'value'
-```
-
-为什么constructor_args是None呢？
-
-分析了一下，主要是`read_args_v`这个方法，我们传入的array是reference_table中的idx值3，不是内存指针地址
-```python
-            elif arg_name == 'jbyteArray':
-                ref = int.from_bytes(mu.mem_read(args_ptr, 4), byteorder='little')
-                result.append(self.get_reference(ref))
-                args_ptr = args_ptr + 4
-```
-所以这里我们无法获取到jbyteArray，我们打个补丁进去
-```python
-            elif arg_name == 'jbyteArrayLocal':  # case only
-                result.append(self.get_reference(args_ptr))
-```
-
-```python
-    @java_method_def(name='convertCStringToJniSafeString', signature='([B)Ljava/lang/String;', native=False, args_list=['jbyteArrayLocal'])
-    def convert_cstring_to_jni_safe_string(self, arr):
-        return arr.value.decode()
-```
-
-再次运行
+嗯，提交下PR [implement jni methods and fix memory leak issue #55](https://github.com/AeonLucid/AndroidNativeEmu/pull/55)，再次运行
 ```
 2021-01-01 19:38:34,842    INFO                           __main__ | Loaded modules:
 2021-01-01 19:38:34,842    INFO                           __main__ | => 0xcbbcb000 - example_binaries/libdl.so
