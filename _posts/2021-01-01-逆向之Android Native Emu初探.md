@@ -2,6 +2,8 @@
 
 最近一款搬运Youtube视频的App在小圈子里火了起来，通常新App的防护是比较差的，逆向难度低。本来是不适合用来水博客的，但既然简单那就可以玩点花样，试试来用[AndroidNativeEmu](https://github.com/AeonLucid/AndroidNativeEmu)实现加解密算法的调用。
 
+样本：[libacos_util.so](../assets/files/libacos_util.so)
+
 ## 抓包
 
 ![](../assets/images/20210101/0.png)
