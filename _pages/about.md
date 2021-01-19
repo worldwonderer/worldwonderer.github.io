@@ -5,4 +5,10 @@ layout: single
 author_profile: true
 ---
 
-test about
+Name: Pitt Chen
+
+Gender: Male
+
+City: Beijing, China
+
+Education: DLUT, bachelor degree of business administration
