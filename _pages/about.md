@@ -2,9 +2,7 @@
 title: "About"
 permalink: /about/
 layout: single
-author_profile: true
 ---
-
 Name: Pitt Chen
 
 Gender: Male

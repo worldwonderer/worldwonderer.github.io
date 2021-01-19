@@ -1,6 +1,6 @@
 # main links
 main:
-   - title: "LeetCode"
-     url: /leetcode/
+   - title: "Archive"
+     url: /year-archive/
    - title: "About"
      url: /about/

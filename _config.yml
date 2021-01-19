@@ -116,9 +116,9 @@ author:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
       url: mailto:xtchen.pitt@gmail.com
-    - label: "Archive"
-      icon: "fas fa-fw fa-link"
-      url: "https://worldwonderer.github.io/year-archive/"
+#    - label: "Archive"
+#      icon: "fas fa-fw fa-link"
+#      url: "https://worldwonderer.github.io/year-archive/"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
       # url: "https://twitter.com/"
