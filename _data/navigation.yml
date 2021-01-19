@@ -1,0 +1,6 @@
+# main links
+main:
+   - title: "LeetCode"
+     url: /leetcode/
+   - title: "About"
+     url: /about/
