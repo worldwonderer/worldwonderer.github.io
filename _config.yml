@@ -23,7 +23,7 @@ name                     : "P"
 description              : "Reverse engineering & Web crawler"
 url                      : "https://pitechan.com/"
 baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+repository               : "worldwonderer/worldwonderer.github.io"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # "/assets/images/bio-photo_88x88.jpg"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
