@@ -3,9 +3,7 @@ title: "About"
 permalink: /about/
 layout: single
 ---
-Name: Pitt Chen
-
-Gender: Male
+Nickname: PiteChan
 
 City: Beijing, China
 
