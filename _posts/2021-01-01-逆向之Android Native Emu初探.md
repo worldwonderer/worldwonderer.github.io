@@ -72,7 +72,7 @@ from androidemu.emulator import Emulator
 from androidemu.java.java_class_def import JavaClassDef
 from androidemu.java.java_method_def import java_method_def
 
-import debug_utils
+from samples import debug_utils
 
 
 # Create java class.
@@ -152,8 +152,11 @@ except UcError as e:
     print("Exit at %x" % emulator.mu.reg_read(UC_ARM_REG_PC))
     raise
 ```
+这个项目的目录结构是有点奇怪的，按readme中直接cd到samples去执行example.py会找不到androidemu模块，所以还得执行下
 
-试着运行了一下报错，`unicorn.unicorn.UcError: Invalid memory fetch (UC_ERR_FETCH_UNMAPPED)`。好吧，还记得上边deflate函数吗，libz.so我们也得加载上。
+`export PYTHONPATH="${PYTHONPATH}:/path/to/AndroidNativeEmu/"`
+
+接着试着运行了一下报错，`unicorn.unicorn.UcError: Invalid memory fetch (UC_ERR_FETCH_UNMAPPED)`。好吧，还记得上边deflate函数吗，libz.so我们也得加载上。
 
 这里有个小技巧，`cat /proc/<pid>/maps`可以看到进程加载的动态库，然后直接`adb pull /system/lib/libz.so`就能拿到libz.so文件了
 
