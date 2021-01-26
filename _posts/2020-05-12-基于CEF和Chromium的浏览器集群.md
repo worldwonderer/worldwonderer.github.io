@@ -4,14 +4,10 @@
 ](https://stackoverflow.com/questions/33225947/can-a-website-detect-when-you-are-using-selenium-with-chromedriver)。当然清除selenium特征，或者篡改检测的代码也是一种应对策略。除了自动化测试流派，是否还有其他操纵浏览器的方式呢？本文提出基于CEF（Chromium Embedded Framework）和Chromium，定制一套专业的爬虫浏览器环境，并工程化为浏览器集群。
 
 ## Chromium
-
-反爬技术中的浏览器指纹，即获取浏览器具有辨识度的独一无二的特征，计算出值来作为浏览器的标识，正在被广泛使用。
+反爬技术中的浏览器指纹，即获取浏览器具有辨识度的独一无二的特征，计算出值来作为浏览器的标识，正在被广泛使用。[(Cross-)Browser Fingerprinting via OS and Hardware Level Features](http://yinzhicao.org/TrackingFree/crossbrowsertracking_NDSS17.pdf) 这篇论文讲述了一些通过操作系统和硬件层面对浏览器信息进行收集和比对的方式。
 
 Chromium是一个开源浏览器项目，相比Chrome浏览器，其开源属性让我们有了修改和定制浏览器的机会，以规避基于浏览器指纹的反爬，增加专属于爬虫的功能。
 
-### 浏览器指纹对抗
-
-### 定制
 
 ## CEF
 
@@ -44,10 +40,6 @@ CEF是支持在其他应用中嵌入Chromium浏览器的框架，提供了丰富
 
 不出意外就能在`cef_binary\build\tests\cefsimple\Debug`文件夹里找到编译完的cefsimple。
 
-### 二次开发
-
-这里以一个简单的例子：实现一个接收网页链接，返回渲染后HTML的服务，来讲解CEF的二次开发。
-
 ## 浏览器集群
 
-## 总结
+![](../assets/images/20200406/1.png)
