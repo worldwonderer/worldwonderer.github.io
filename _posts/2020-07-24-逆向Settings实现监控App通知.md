@@ -241,7 +241,7 @@ for (var i = 0; i < lt_fields.length && lv_found == false; i++) {
 if(lv_found == true) {
    lo_fld_eaxe.setAccessible(true);
    try{ 
-          var       lv_e_a_x_e = lo_fld_eaxe.get(this);   
+          var lv_e_a_x_e = lo_fld_eaxe.get(this);   
    }
    catch(err){
           console.log("Error:"+err);
@@ -254,7 +254,7 @@ if(lv_found == true) {
 ```javascript
 if (key.toString() === "mipush_payload") {
     if (pkg === "com.jifen.qukan") {
-        var secKey = "IS7hXXi0RDSkX+CnfTAAAA=="
+        var secKey = "IS7hXXi0RDSkX+CnfTAAAA=="  // 可以在app的sharedpreferences中找到
     }
 
     var mipushPayloadBytes = bundle.getByteArray(key);
@@ -274,7 +274,7 @@ if (key.toString() === "mipush_payload") {
     var iz = apClass.a(hoClass.a(5), true)
     IY.a(iz, decryptBytes)
     iz = Java.cast(iz, Java.use("com.xiaomi.push.ir"))
-    record.info = iz.toString()
+    send(iz.toString())
 }
 ```
 
