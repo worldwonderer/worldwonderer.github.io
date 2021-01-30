@@ -5,8 +5,14 @@ layout: single
 ---
 Nickname: PiteChan
 
-City: Beijing, China
+City: Beijing
 
-Education: DLUT, bachelor degree of business administration
+Education: DLUT
 
-Resume: [click to download](../assets/files/resume.pdf)
+Resume: [Click to download](../assets/files/resume.pdf)
+
+Plan for 2021: 
+
+* course: CMU 15-213 Introduction to Computer Systems
+* book: Understanding Android Internals ART JVM
+* algorithm: 500 problem at LeetCode
