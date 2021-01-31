@@ -11,7 +11,7 @@ Education: DLUT
 
 Resume: [Click to download](../assets/files/resume.pdf)
 
-Plan for 2021: 
+Plans for 2021: 
 
 * course: CMU 15-213 Introduction to Computer Systems
 * book: Understanding Android Internals ART JVM

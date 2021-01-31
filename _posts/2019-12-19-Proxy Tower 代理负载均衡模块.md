@@ -78,5 +78,3 @@ Proxy Tower还提供了一个[Dashboard](https://github.com/worldwonderer/proxy_
 
 ## 结语
 如果[Proxy Tower](https://github.com/worldwonderer/proxy_tower) 能解决你的部分问题，欢迎Star，这对我很重要。
-
-最后的最后，请爬虫工程师们一定要去一家**买得起付费代理IP的公司**。
