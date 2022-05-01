@@ -20,7 +20,7 @@ title                    : "World Wonderer"
 title_separator          : "-"
 subtitle                 : ""
 name                     : "P"
-description              : "Reverse engineering & Web crawler"
+description              : "backend developer"
 url                      : "https://pitechan.com"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "worldwonderer/worldwonderer.github.io"
@@ -109,7 +109,7 @@ analytics:
 author:
   name             : "P"
   avatar           : "/assets/images/bio-photo.jpg"
-  bio              : "Reverse engineering & Web crawler"
+  bio              : "backend developer"
   location         : "Beijing"
   email            : # "xtchen.pitt@gmail.com"
   links:
