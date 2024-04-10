@@ -1,4 +1,1 @@
-# Blog
-https://pitechan.com/
-or
-https://worldwonderer.github.io
+Personal Blog: https://pitechan.com/
