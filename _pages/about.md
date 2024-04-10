@@ -3,10 +3,10 @@ title: "About"
 permalink: /about/
 layout: single
 ---
-Nickname: PiteChan
+名字: Pite Chan
 
-City: Beijing/Shanghai
+城市: 北京/上海
 
-Education: DLUT
+学历: 本科-大连理工大学-工商管理 
 
-Resume: [Click to download](../assets/files/resume.pdf)
+简历: [Click to download](../assets/files/resume.pdf)
