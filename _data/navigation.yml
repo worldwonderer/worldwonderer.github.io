@@ -6,3 +6,5 @@ main:
      url: /about/
    - title: "GPT Algo"
      url: https://algo.pitechan.com/problems
+   - title: "Prompt Doc"
+     url: https://prompt.pitechan.com/admin/prompts
