@@ -19,7 +19,7 @@ locale                   : "en-US"
 title                    : "World Wonderer"
 title_separator          : "-"
 subtitle                 : ""
-name                     : "Pite Chan"
+name                     : "Pite Chen"
 description              : "爬虫/后端/AIGC"
 url                      : "https://pitechan.com"
 baseurl                  : # the subpath of your site, e.g. "/blog"
@@ -112,7 +112,7 @@ analytics:
 
 # Site Author
 author:
-  name             : "Pite Chan"
+  name             : "Pite Chen"
   avatar           : "/assets/images/bio-photo.jpg"
   bio              : "爬虫/后端/AIGC"
   location         : "北京/上海"
