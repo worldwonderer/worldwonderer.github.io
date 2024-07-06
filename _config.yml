@@ -20,7 +20,7 @@ title                    : "World Wonderer"
 title_separator          : "-"
 subtitle                 : ""
 name                     : "Pite Chen"
-description              : "爬虫/后端/AIGC"
+description              : "AIGC/后端/爬虫"
 url                      : "https://pitechan.com"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "worldwonderer/worldwonderer.github.io"
@@ -114,7 +114,7 @@ analytics:
 author:
   name             : "Pite Chen"
   avatar           : "/assets/images/bio-photo.jpg"
-  bio              : "爬虫/后端/AIGC"
+  bio              : "AIGC/后端/爬虫"
   location         : "北京/上海"
   email            : # "xtchen.pitt@gmail.com"
   links:
